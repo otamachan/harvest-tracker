@@ -17,7 +17,7 @@ export const YearlyStats: React.FC<YearlyStatsProps> = ({ records }) => {
     };
 
     yearRecords.forEach(record => {
-      totals[record.vegetable] += record.count;
+      totals[record.vegetable as VegetableType] += record.count;
     });
 
     return totals;

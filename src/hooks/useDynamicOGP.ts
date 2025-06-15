@@ -13,7 +13,7 @@ export function useDynamicOGP(records: HarvestRecord[]) {
     };
 
     yearRecords.forEach(record => {
-      totals[record.vegetable] += record.count;
+      totals[record.vegetable as VegetableType] += record.count;
     });
 
     const grandTotal = Object.values(totals).reduce((sum, count) => sum + count, 0);

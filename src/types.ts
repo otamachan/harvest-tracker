@@ -3,6 +3,8 @@ export interface HarvestRecord {
   date: string;
   vegetable: VegetableType;
   count: number;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export type VegetableType = 'きゅうり' | 'なす' | 'ピーマン';

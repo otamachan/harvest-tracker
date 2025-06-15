@@ -1,33 +1,24 @@
 import React, { useState } from 'react';
-import { HarvestRecord } from './types';
+import { Amplify } from 'aws-amplify';
 import { HarvestForm } from './components/HarvestForm';
 import { HarvestList } from './components/HarvestList';
 import { YearlyStats } from './components/YearlyStats';
 import { LoginForm } from './components/LoginForm';
-import { useLocalStorage } from './hooks/useLocalStorage';
+import { useAmplifyData } from './hooks/useAmplifyData';
 import { useDynamicOGP } from './hooks/useDynamicOGP';
 import { useAuth } from './hooks/useAuth';
+import outputs from './amplify_outputs.json';
 import './App.css';
 
+Amplify.configure(outputs);
+
 function App() {
-  const [records, setRecords] = useLocalStorage<HarvestRecord[]>('harvestRecords', []);
+  const { records, addRecord, deleteRecord } = useAmplifyData();
   const [activeTab, setActiveTab] = useState<'input' | 'list' | 'stats' | 'login'>('stats');
   const { isAuthenticated, user, login, logout } = useAuth();
   
   // 動的OGP更新
   useDynamicOGP(records);
-
-  const addRecord = (recordData: Omit<HarvestRecord, 'id'>) => {
-    const newRecord: HarvestRecord = {
-      ...recordData,
-      id: Date.now().toString() + Math.random().toString(36).substr(2, 9)
-    };
-    setRecords([...records, newRecord]);
-  };
-
-  const deleteRecord = (id: string) => {
-    setRecords(records.filter(record => record.id !== id));
-  };
 
   const tabStyle = (tab: string) => ({
     padding: '0.75rem 1.5rem',

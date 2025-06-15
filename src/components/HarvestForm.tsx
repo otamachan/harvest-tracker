@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { HarvestRecord, VegetableType } from '../types';
+import { VegetableType } from '../types';
 
 interface HarvestFormProps {
-  onAddRecord: (record: Omit<HarvestRecord, 'id'>) => void;
+  onAddRecord: (record: { date: string; vegetable: VegetableType; count: number }) => void;
   isAuthenticated: boolean;
 }
 
